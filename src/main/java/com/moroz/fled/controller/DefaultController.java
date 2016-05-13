@@ -5,10 +5,21 @@
  */
 package com.moroz.fled.controller;
 
+import com.moroz.fled.fuzzy.FuzzyLogicEdgeDetector;
+import com.moroz.fled.util.FileImageProcessor;
+import com.moroz.fled.util.ImageTransformer;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
+import javax.imageio.ImageIO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -21,5 +32,50 @@ public class DefaultController {
     public String index(ModelMap map) {
         map.put("msg", "Hello Spring 4 Web MVC!");
         return "index";
+    }
+    
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String upload(@RequestParam("file") MultipartFile file, ModelMap map) throws IOException {
+        InputStream in = new ByteArrayInputStream(file.getBytes());
+        BufferedImage input = ImageIO.read(in);
+        BufferedImage output = processImage(input);
+        
+        saveImages(input, output);
+        
+        putImagePaths(map);
+        
+        System.out.println("Files are saved!");
+        
+        //return "redirect:/";
+        return "result";
+    }
+    
+    private BufferedImage processImage(BufferedImage input) throws IOException {
+        ImageTransformer imageTransformer = new ImageTransformer();
+        BufferedImage grayscaleImage = imageTransformer.toGrayscaleImage(input);
+
+        FuzzyLogicEdgeDetector edgeDetector = new FuzzyLogicEdgeDetector();
+        BufferedImage output = edgeDetector.detectEdges(grayscaleImage);     
+        
+        return output;
+    }
+    
+    private void saveImages(BufferedImage input, BufferedImage output) throws IOException {
+        FileImageProcessor imageProcessor = new FileImageProcessor();
+        imageProcessor.writeImageToFile(input, "input");
+        imageProcessor.writeImageToFile(output, "output");
+    }
+    
+    private void putImagePaths(ModelMap map) {
+        String serverPath = Paths.get("").toAbsolutePath().toString();
+        
+        String inputPath = serverPath + "\\input.jpg";
+        String outputPath = serverPath + "\\output.jpg";
+        
+        System.out.println("inputPath = " + inputPath);
+        System.out.println("outputPath = " + outputPath);
+        
+        map.put("inputPath", inputPath);
+        map.put("outputPath", outputPath);
     }
 }

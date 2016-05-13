@@ -23,5 +23,9 @@
             <h1>My First Bootstrap Page</h1>
             <p>This is some text.</p> 
         </div>
+        <form method="post" enctype="multipart/form-data" action="upload">
+            Choose file to upload: <input type="file" name="file"> <br>
+            <input type="submit" value="Upload!">
+        </form>
     </body>
 </html>
