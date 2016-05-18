@@ -20,12 +20,12 @@
     </head>
     <body>
         <div class="container">
-            <h1>My First Bootstrap Page</h1>
-            <p>This is some text.</p> 
+            <h1>My First Fuzzy logic based edge detection Page</h1>
+            <p>This is some text (just for example)</p> 
         </div>
         <form method="post" enctype="multipart/form-data" action="upload">
-            Choose file to upload: <input type="file" name="file"> <br>
-            <input type="submit" value="Upload!">
+            Choose image to process: <input type="file" name="file"> <br>
+            <input type="submit" value="Process this image!">
         </form>
     </body>
 </html>

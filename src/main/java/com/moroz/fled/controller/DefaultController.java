@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,14 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class DefaultController {
     
+    @Value("${inputPath}")
+    private String inputPath;
+    
+    @Value("${outputPath}")
+    private String outputPath;
+    
+    private static final String JPG_FORMAT = "jpg";
+    
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap map) {
         map.put("msg", "Hello Spring 4 Web MVC!");
@@ -39,13 +48,9 @@ public class DefaultController {
         InputStream in = new ByteArrayInputStream(file.getBytes());
         BufferedImage input = ImageIO.read(in);
         BufferedImage output = processImage(input);
-        
+                
         saveImages(input, output);
-        
-        putImagePaths(map);
-        
-        System.out.println("Files are saved!");
-        
+                
         //return "redirect:/";
         return "result";
     }
@@ -62,20 +67,7 @@ public class DefaultController {
     
     private void saveImages(BufferedImage input, BufferedImage output) throws IOException {
         FileImageProcessor imageProcessor = new FileImageProcessor();
-        imageProcessor.writeImageToFile(input, "input");
-        imageProcessor.writeImageToFile(output, "output");
-    }
-    
-    private void putImagePaths(ModelMap map) {
-        String serverPath = Paths.get("").toAbsolutePath().toString();
-        
-        String inputPath = serverPath + "\\input.jpg";
-        String outputPath = serverPath + "\\output.jpg";
-        
-        System.out.println("inputPath = " + inputPath);
-        System.out.println("outputPath = " + outputPath);
-        
-        map.put("inputPath", inputPath);
-        map.put("outputPath", outputPath);
+        imageProcessor.writeImageToFile(input, inputPath, "input", JPG_FORMAT);
+        imageProcessor.writeImageToFile(output, outputPath, "output", JPG_FORMAT);
     }
 }

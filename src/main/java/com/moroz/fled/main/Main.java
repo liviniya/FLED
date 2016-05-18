@@ -23,6 +23,6 @@ public class Main {
         FuzzyLogicEdgeDetector edgeDetector = new FuzzyLogicEdgeDetector();
         BufferedImage edgeImage = edgeDetector.detectEdges(grayscaleImage);
 
-        imageProcessor.writeImageToFile(edgeImage, "result_edges_image");
+        //imageProcessor.writeImageToFile(edgeImage, "result_edges_image");
     }
 }
