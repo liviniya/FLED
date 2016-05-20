@@ -17,8 +17,8 @@
                 <th colspan="2"><h1>Result of fuzzy logic based edge detection</h1></th>
             </tr>
             <tr>
-                <td><img src="resources/images/input.jpg" width="100%"></td>
-                <td><img src="resources/images/output.jpg" width="100%"></td>
+                <td><img src="images/input.jpg" width="100%"></td>
+                <td><img src="images/output.jpg" width="100%"></td>
             </tr>
         </table>
         

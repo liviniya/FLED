@@ -4,7 +4,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FileImageProcessor {
 
     public void writeImageToFile(BufferedImage image, String path, 

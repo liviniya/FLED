@@ -15,7 +15,9 @@
     <context:component-scan base-package="com.moroz.fled" />
     <mvc:annotation-driven />
     
-    <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/"/>
+<!--    <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" cache-period="0"/>-->
+
+    <mvc:resources mapping="/**" location="/static/" cache-period="0"/>
  
     <bean id="jspViewResolver"
             class="org.springframework.web.servlet.view.InternalResourceViewResolver">

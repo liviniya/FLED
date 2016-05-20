@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -44,15 +45,24 @@ public class DefaultController {
     }
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String upload(@RequestParam("file") MultipartFile file, ModelMap map) throws IOException {
+    public String upload(@RequestParam("file") MultipartFile file, ModelMap map) throws IOException, InterruptedException {
         InputStream in = new ByteArrayInputStream(file.getBytes());
         BufferedImage input = ImageIO.read(in);
         BufferedImage output = processImage(input);
                 
-        saveImages(input, output);
-                
+        saveImages(input, output);       
+        
+        Thread.currentThread().sleep(1000);
+        
+        return "redirect:/result";
+        //return new ModelAndView("result");
+    }
+    
+    @RequestMapping(value = "/result", method = RequestMethod.GET)
+    public ModelAndView result() throws IOException {
+                        
         //return "redirect:/";
-        return "result";
+        return new ModelAndView("result");
     }
     
     private BufferedImage processImage(BufferedImage input) throws IOException {
