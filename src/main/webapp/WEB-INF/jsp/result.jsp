@@ -14,15 +14,21 @@
     <body>  
         <table>
             <tr>
-                <th colspan="2"><h1>Result of fuzzy logic based edge detection</h1></th>
+                <th colspan="3"><h1>Result of fuzzy logic based edge detection</h1></th>
             </tr>
             <tr>
-                <td><img src="images/input.jpg" width="100%"></td>
-                <td><img src="images/output.jpg" width="100%"></td>
+                <th>Input image</th>
+                <th>Fuzzy output image</th>
+                <th>Sobel output image</th>
             </tr>
-        </table>
-        
-        
-        
+            <tr>
+                <td><img src="input_image" width="100%"></td>
+                <td><img src="output_image" width="100%"></td>
+                <td><img src="sobel_image" width="100%"></td>
+            </tr>
+            <tr>
+                <th colspan="3"><a href="index">Come to back</a></th>
+            </tr>
+        </table>       
     </body>
 </html>

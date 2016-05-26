@@ -7,12 +7,12 @@ package com.moroz.fled.fuzzy;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import static com.moroz.fled.util.GeneralConstants.*;
+
 public class MamdaniFIS {
 
     private static final boolean BLACK = false;
-    private static final boolean WHITE = true;
-
-    private static final int NEIGHBOURS_SIZE = 9;
+    private static final boolean WHITE = true;   
 
     private static final boolean[] BOTTOM_EDGE              = {WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, BLACK, BLACK, BLACK};
     private static final boolean[] TOP_EDGE                 = {BLACK, BLACK, BLACK, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE};
@@ -26,10 +26,7 @@ public class MamdaniFIS {
     private static final boolean[][] RULES = {BOTTOM_EDGE, TOP_EDGE, LEFT_EDGE, RIGHT_EDGE, LEFT_TOP_CORNER_EDGE,
             RIGHT_BOTTOM_CORNER_EDGE, LEFT_BOTTOM_CORNER_EDGE, RIGHT_TOP_CORNER_EDGE};
 
-    private static final int [][] NEIGHBOURS = {{-1, -1}, {-1, 0}, {-1, 1},
-            {0, -1}, {0, 0}, {0, 1},
-            {1, -1}, {1, 0}, {1, 1}};
-
+   
     public double resolve(ImageFuzzyNumber[][] fuzzyNumbers, int widthIndex, int heightIndex) {
         double alphaMax = 0;
         for (int r = 0; r < RULES.length; r++) {

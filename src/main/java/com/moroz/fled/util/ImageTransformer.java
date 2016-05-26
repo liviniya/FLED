@@ -4,13 +4,13 @@ package com.moroz.fled.util;
 * Created at : 11-04-2016
 */
 
+import static com.moroz.fled.util.CheckerUtil.checkIfRedGreenAndBlueAreEquals;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class ImageTransformer {
 
-    public BufferedImage toGrayscaleImage(BufferedImage image) throws IOException {
+    public BufferedImage toGrayscaleImage(BufferedImage image) {
         BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
         for (int i = 0; i < image.getWidth(); i++) {
             for (int j = 0; j < image.getHeight(); j++) {
@@ -28,5 +28,11 @@ public class ImageTransformer {
         int green = c.getGreen();
         int blue = c.getBlue();
         return 0.299 * red + 0.587 * green + 0.114 * blue;
+    }
+    
+    public static int convertRGBToGrayLevelAndCheckIt(int rgb) {
+        Color color = new Color(rgb);
+        checkIfRedGreenAndBlueAreEquals(color);
+        return color.getRed();
     }
 }

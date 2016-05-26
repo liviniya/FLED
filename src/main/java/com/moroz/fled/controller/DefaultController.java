@@ -5,23 +5,23 @@
  */
 package com.moroz.fled.controller;
 
+import com.moroz.fled.classic.SobelOperatorEdgeDetector;
 import com.moroz.fled.fuzzy.FuzzyLogicEdgeDetector;
-import com.moroz.fled.util.FileImageProcessor;
 import com.moroz.fled.util.ImageTransformer;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Paths;
+import java.io.OutputStream;
 import javax.imageio.ImageIO;
-import org.springframework.beans.factory.annotation.Value;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -30,42 +30,62 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class DefaultController {
     
-    @Value("${inputPath}")
-    private String inputPath;
-    
-    @Value("${outputPath}")
-    private String outputPath;
-    
-    private static final String JPG_FORMAT = "jpg";
-    
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    private BufferedImage input;
+        
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(ModelMap map) {
         map.put("msg", "Hello Spring 4 Web MVC!");
         return "index";
     }
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String upload(@RequestParam("file") MultipartFile file, ModelMap map) throws IOException, InterruptedException {
+    public String upload(@RequestParam("file") MultipartFile file, ModelMap map) 
+            throws IOException, InterruptedException {
         InputStream in = new ByteArrayInputStream(file.getBytes());
-        BufferedImage input = ImageIO.read(in);
+        input = ImageIO.read(in);        
+        return "result";
+    }   
+    
+    @RequestMapping(value = "/output_image", method = RequestMethod.GET)
+    public @ResponseBody void getOutputImage(HttpServletResponse response) 
+            throws IOException {
         BufferedImage output = processImage(input);
-                
-        saveImages(input, output);       
-        
-        Thread.currentThread().sleep(1000);
-        
-        return "redirect:/result";
-        //return new ModelAndView("result");
+
+        writeImageToResponse(output, response);
     }
     
-    @RequestMapping(value = "/result", method = RequestMethod.GET)
-    public ModelAndView result() throws IOException {
-                        
-        //return "redirect:/";
-        return new ModelAndView("result");
+    @RequestMapping(value = "/sobel_image", method = RequestMethod.GET)
+    public @ResponseBody void getSobelImage(HttpServletResponse response) throws IOException {
+        BufferedImage output = operateSobel(input);
+        writeImageToResponse(output, response);
     }
     
-    private BufferedImage processImage(BufferedImage input) throws IOException {
+    @RequestMapping(value = "/input_image", method = RequestMethod.GET)
+    public @ResponseBody void getInputImage(HttpServletResponse response) 
+            throws IOException {
+        writeImageToResponse(input, response);
+    }
+    
+    private void writeImageToResponse(BufferedImage image,
+            HttpServletResponse response) throws IOException {
+        response.setContentType("image/jpg");
+        OutputStream out;
+        out = response.getOutputStream();
+        ImageIO.write(image, "jpg", out);
+        out.close();
+    }
+    
+    private BufferedImage operateSobel(BufferedImage input) {
+        ImageTransformer imageTransformer = new ImageTransformer();
+        BufferedImage grayscaleImage = imageTransformer.toGrayscaleImage(input);
+        
+        SobelOperatorEdgeDetector edgeDetector = new SobelOperatorEdgeDetector();
+        BufferedImage output = edgeDetector.detectEdges(grayscaleImage);
+        
+        return output;
+    }
+    
+    private BufferedImage processImage(BufferedImage input) {
         ImageTransformer imageTransformer = new ImageTransformer();
         BufferedImage grayscaleImage = imageTransformer.toGrayscaleImage(input);
 
@@ -73,11 +93,5 @@ public class DefaultController {
         BufferedImage output = edgeDetector.detectEdges(grayscaleImage);     
         
         return output;
-    }
-    
-    private void saveImages(BufferedImage input, BufferedImage output) throws IOException {
-        FileImageProcessor imageProcessor = new FileImageProcessor();
-        imageProcessor.writeImageToFile(input, inputPath, "input", JPG_FORMAT);
-        imageProcessor.writeImageToFile(output, outputPath, "output", JPG_FORMAT);
-    }
+    }    
 }

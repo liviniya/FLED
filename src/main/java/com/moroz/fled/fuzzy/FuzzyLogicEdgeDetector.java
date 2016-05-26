@@ -4,16 +4,17 @@ package com.moroz.fled.fuzzy;
 * Created at : 11-04-2016
 */
 
+import com.moroz.fled.interfaces.EdgeDetector;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-public class FuzzyLogicEdgeDetector {
+public class FuzzyLogicEdgeDetector implements EdgeDetector {
 
-    private ImageToFuzzyNumbersConverter imageToFuzzyNumbersConverter = new ImageToFuzzyNumbersConverter();
-    private MamdaniFIS mamdani = new MamdaniFIS();
+    private final ImageToFuzzyNumbersConverter imageToFuzzyNumbersConverter = new ImageToFuzzyNumbersConverter();
+    private final MamdaniFIS mamdani = new MamdaniFIS();
 
-    public BufferedImage detectEdges(BufferedImage grayscaleImage) throws IOException {
+    @Override
+    public BufferedImage detectEdges(BufferedImage grayscaleImage) {
         BufferedImage resultGrayscaleImage = new BufferedImage(grayscaleImage.getWidth(), grayscaleImage.getHeight(), grayscaleImage.getType());
         ImageFuzzyNumber [][] fuzzyNumbers = imageToFuzzyNumbersConverter.convertGrayLevelImageToFuzzyNumbers(grayscaleImage);
         for (int i = 1; i < grayscaleImage.getWidth() - 1; i++) {
