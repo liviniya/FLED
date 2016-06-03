@@ -15,6 +15,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -33,18 +36,19 @@ public class DefaultController {
     private BufferedImage input;
         
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String index(ModelMap map) {
-        map.put("msg", "Hello Spring 4 Web MVC!");
+    public String index() {
         return "index";
     }
     
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String upload(@RequestParam("file") MultipartFile file, ModelMap map) 
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)    
+    public ResponseEntity upload(@RequestParam("file") MultipartFile file) 
             throws IOException, InterruptedException {
+        System.out.println("In upload");
         InputStream in = new ByteArrayInputStream(file.getBytes());
-        input = ImageIO.read(in);        
-        return "result";
-    }   
+        input = ImageIO.read(in);    
+        System.out.println("input in upload = " + input);
+        return new ResponseEntity(HttpStatus.OK);
+    } 
     
     @RequestMapping(value = "/output_image", method = RequestMethod.GET)
     public @ResponseBody void getOutputImage(HttpServletResponse response) 
@@ -63,6 +67,7 @@ public class DefaultController {
     @RequestMapping(value = "/input_image", method = RequestMethod.GET)
     public @ResponseBody void getInputImage(HttpServletResponse response) 
             throws IOException {
+        System.out.println("input=" + input);
         writeImageToResponse(input, response);
     }
     
