@@ -15,12 +15,15 @@
         
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.css">
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xcharts/0.3.0/xcharts.css">
+
         <link rel="stylesheet" type="text/css" href="css/site.css" />
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>       
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.js"></script>        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.js"></script> 
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xcharts/0.3.0/xcharts.js"></script>
         
         <script src="js/fled.js"></script>
     </head>
@@ -40,21 +43,26 @@
                 </div>
                 <div class="col-sm-9">
                     <h5>Select appropriate characteristics and click the button:</h5>
+                    <div id="visualization">
+                        <figure style="width: 400px; height: 300px;" id="myChart"></figure>
+                    </div>
+                    
                     <button id="calculate_button" type="button" class="btn btn-default btn-lg btn-block btn-huge">Calculate</button>
                 </div>
             </div>
             <div class="row">
                 <h5>Results of program</h5>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     Fuzzy output:
-                    <img id="output_image" class="img-responsive" src="images/background.jpg" alt="Input image" style="max-height: 300px">
+                    <img id="output_image" class="img-responsive" src="images/background.jpg" alt="Input image" style="max-height: 500px">
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     Sobel operator output:
-                    <img id="sobel_image" class="img-responsive" src="images/background.jpg" alt="Input image" style="max-height: 300px">
+                    <img id="sobel_image" class="img-responsive" src="images/background.jpg" alt="Input image" style="max-height: 500px">
                 </div>
             </div>
-        </div>
+        </div>        
+        
 
     </body>
 </html>

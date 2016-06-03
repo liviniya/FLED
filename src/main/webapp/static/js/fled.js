@@ -35,6 +35,65 @@ $(document).ready(function () {
         $("#output_image").attr("src", "output_image?" + Math.floor(Math.random() * 1000));
         $("#sobel_image").attr("src", "sobel_image?" + Math.floor(Math.random() * 1000));
     });
+    
+    var data = {
+        "xScale": "linear",
+        "yScale": "linear",
+        "xMin": 0,
+        "xMax": 255,
+        "yMin": 0,
+        "yMax": 1.1,
+        "type": "line-dotted",
+        "main": [
+            {
+                "className": ".black_mf",
+                "data": [
+                    {
+                        "x": 0,
+                        "y": 1
+                    },
+                    {
+                        "x": 43,
+                        "y": 1
+                    },
+                    {
+                        "x": 117,
+                        "y": 0
+                    },
+                    {
+                        "x": 255,
+                        "y": 0
+                    }
+                ]
+            }
+        ],
+        "comp": [
+            {
+                "className": ".white_mf",
+                "type": "line-dotted",
+                "data": [
+                    {
+                        "x": 0,
+                        "y": 0
+                    },
+                    {
+                        "x": 87,
+                        "y": 0
+                    },
+                    {
+                        "x": 205,
+                        "y": 1
+                    },
+                    {
+                        "x": 255,
+                        "y": 1
+                    }
+                ]
+            }
+        ]
+    };
+    var myChart = new xChart('bar', data, '#myChart');
+
 });
 
     

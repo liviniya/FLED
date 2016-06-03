@@ -8,7 +8,22 @@ and open the template in the editor.
     Author     : Oksana_Moroz
 */
 
-.blue {
-    color: blue;
-    background-color: background
+.xchart .black_mf.color0 .line {
+    stroke: black;
+}
+
+.xchart .black_mf.color0 .fill {
+    fill: none;
+}
+
+.xchart .black_mf.color0 circle {
+    fill: black;
+}
+
+.xchart .white_mf.color0 .line {
+    stroke: red;
+}
+
+.xchart .white_mf.color0 circle {
+    fill: red;
 }
