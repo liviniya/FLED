@@ -5,6 +5,20 @@
  */
 
 $(document).ready(function () {
+//    
+//    $('.spinner .btn:first-of-type').on('click', function () {
+//        $('.spinner input').val(parseInt($('.spinner input').val(), 10) + 1);
+//    });
+//    $('.spinner .btn:last-of-type').on('click', function () {
+//        $('.spinner input').val(parseInt($('.spinner input').val(), 10) - 1);
+//    });
+//    
+
+    $( "#spinner" ).spinner({
+        min: 0,
+        max: 255,
+        numberFormat: "n"
+    });
     
     $('#upload_image_link').click(function () {
         var formData = new FormData();
