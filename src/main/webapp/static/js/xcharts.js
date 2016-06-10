@@ -531,7 +531,7 @@ var emptyData = [[]],
     timing: 750,
 
     // Line interpolation
-    interpolation: 'monotone',
+    interpolation: 'linear',
 
     // Data sorting
     sortX: function (a, b) {

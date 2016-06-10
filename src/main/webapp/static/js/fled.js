@@ -5,19 +5,10 @@
  */
 
 $(document).ready(function () {
-//    
-//    $('.spinner .btn:first-of-type').on('click', function () {
-//        $('.spinner input').val(parseInt($('.spinner input').val(), 10) + 1);
-//    });
-//    $('.spinner .btn:last-of-type').on('click', function () {
-//        $('.spinner input').val(parseInt($('.spinner input').val(), 10) - 1);
-//    });
-//    
 
-    $( "#spinner" ).spinner({
+    $("#spinner_white_start, #spinner_white_end, #spinner_black_start, #spinner_black_end, #spinner_edge_end").spinner({
         min: 0,
-        max: 255,
-        numberFormat: "n"
+        max: 255
     });
     
     $('#upload_image_link').click(function () {
@@ -50,7 +41,7 @@ $(document).ready(function () {
         $("#sobel_image").attr("src", "sobel_image?" + Math.floor(Math.random() * 1000));
     });
     
-    var data = {
+    var data_black_white_mf = {
         "xScale": "linear",
         "yScale": "linear",
         "xMin": 0,
@@ -106,7 +97,37 @@ $(document).ready(function () {
             }
         ]
     };
-    var myChart = new xChart('bar', data, '#myChart');
+    var black_white_mf = new xChart('bar', data_black_white_mf, '#black_white_mf');
+
+    var data_edge_mf = {
+        "xScale": "linear",
+        "yScale": "linear",
+        "xMin": 0,
+        "xMax": 255,
+        "yMin": 0,
+        "yMax": 1.1,
+        "type": "line-dotted",
+        "main": [
+            {
+                "className": ".black_mf",
+                "data": [
+                    {
+                        "x": 0,
+                        "y": 1
+                    },
+                    {
+                        "x": 10,
+                        "y": 0
+                    },
+                    {
+                        "x": 255,
+                        "y": 0
+                    }
+                ]
+            }
+        ]
+    };
+    var edge_mf = new xChart('bar', data_edge_mf, '#edge_mf');
 
 });
 

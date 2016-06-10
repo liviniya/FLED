@@ -27,3 +27,11 @@ and open the template in the editor.
 .xchart .white_mf.color0 circle {
     fill: red;
 }
+
+div {
+    padding: 3px;
+}
+
+h5 {
+    font-weight: bold;
+}
