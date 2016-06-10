@@ -30,8 +30,6 @@
         <link rel="stylesheet" href="css/spinner.css">
 
         <link rel="stylesheet" type="text/css" href="css/site.css" />
-
-
     </head>
     <body>  
         <div class="container-fluid">            
@@ -40,7 +38,10 @@
                     <h5>Select an image to process:</h5>
                     <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                         <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="file" id="file"></span>
+                        <span id="change_image_link" class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span>
+                            <span class="fileinput-exists">Change</span>
+                            <input type="file" name="file" id="file">
+                        </span>
                         <a href="#" id="remove_image_link" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                         <a href="#" id="upload_image_link" class="input-group-addon btn btn-default fileinput-exists" >Upload</a>
                     </div>
@@ -48,31 +49,21 @@
                 </div>
                 <div class="col-sm-8">
                     <h5>Select appropriate characteristics and click the button:</h5>
-                    <!--                        <div class="row"> 
-                    
-                                                <div class="col-sm-1">
-                                                    <input id="spinner_white_start">
-                                                </div>
-                                                <div class="col-sm-1">
-                                                    <input id="spinner_white_end">
-                                                </div>
-                                            </div>-->
-
                     <div class="row">
                         <div class="col-sm-12">                            
                             <div class="row" align="center">
                                 White:
-                                <input id="spinner_white_start">
-                                <input id="spinner_white_end">
+                                <input id="spinner_white_start" value="87">
+                                <input id="spinner_white_end" value="205">
                             </div>                            
                             <div class="row" align="center">
                                 Black:
-                                <input id="spinner_black_start">
-                                <input id="spinner_black_end">
+                                <input id="spinner_black_start" value="43">
+                                <input id="spinner_black_end" value="117">
                             </div>                            
                             <div class="row" align="center">
                                 Edge:
-                                <input id="spinner_edge_end">
+                                <input id="spinner_edge_end" value="10">
                             </div>                            
                         </div>
                     </div>
@@ -87,7 +78,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <button id="calculate_button" type="button" class="btn btn-default btn-lg btn-block btn-huge">Calculate</button>
+                            <button id="calculate_button" type="button" class="btn btn-default btn-lg btn-block btn-huge" disabled="disabled">Calculate</button>
                         </div>    
                     </div>
 
@@ -105,7 +96,5 @@
                             </div>
                         </div>-->
         </div>        
-
-
     </body>
 </html>

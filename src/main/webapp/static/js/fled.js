@@ -5,10 +5,50 @@
  */
 
 $(document).ready(function () {
+    
+    var black_start_global = 43;
+    var black_end_global = 117;
+    var white_start_global = 87;
+    var white_end_global = 205;
+    var edge_end_global = 10;
 
-    $("#spinner_white_start, #spinner_white_end, #spinner_black_start, #spinner_black_end, #spinner_edge_end").spinner({
+    $("#spinner_white_start, #spinner_white_end, #spinner_black_start, #spinner_black_end").spinner({
         min: 0,
-        max: 255
+        max: 255,
+        change: function(event, ui) {
+            white_start = $('#spinner_white_start').spinner("value");
+            white_end = $('#spinner_white_end').spinner("value");
+            black_start = $('#spinner_black_start').spinner("value");
+            black_end = $('#spinner_black_end').spinner("value");
+            if (check_pixel_value(white_start) && check_pixel_value(white_end)
+                    && check_pixel_value(black_start) && check_pixel_value(black_end)
+                    && (white_start < white_end) && (black_start < black_end)) {
+                black_start_global = black_start;
+                black_end_global = black_end;
+                white_start_global = white_start;
+                white_end_global = white_end;
+                redraw_black_white_mf(black_start_global, black_end_global, white_start_global, white_end_global);
+            } else {
+                $('#spinner_white_start').spinner("value", white_start_global);
+                $('#spinner_white_end').spinner("value", white_end_global);
+                $('#spinner_black_start').spinner("value", black_start_global);
+                $('#spinner_black_end').spinner("value", black_end_global);
+            }
+        }
+    });
+    
+    $('#spinner_edge_end').spinner({
+        min: 0,
+        max: 255,
+        change: function(event, ui) {
+            edge_end = $('#spinner_edge_end').spinner("value");
+            if (check_pixel_value(edge_end)) {
+                edge_end_global = edge_end;
+                redraw_edge_mf(edge_end_global);
+            } else {
+                $('#spinner_edge_end').spinner("value", edge_end_global);
+            }
+        }
     });
     
     $('#upload_image_link').click(function () {
@@ -25,15 +65,17 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 $("#input_image").attr("src", "input_image?" + Math.floor(Math.random() * 1000));
+                $('#calculate_button').prop('disabled', false);
             },
             error: function (xhr, status, error) {
                 alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
             }            
         });        
-    });
+    });    
     
-    $('#remove_image_link').click(function () {
+    $('#remove_image_link, #change_image_link').click(function () {
         $("#input_image").attr("src", "images/background.jpg");
+        $('#calculate_button').prop('disabled', true);
     });
     
     $('#calculate_button').click(function () {
@@ -41,93 +83,107 @@ $(document).ready(function () {
         $("#sobel_image").attr("src", "sobel_image?" + Math.floor(Math.random() * 1000));
     });
     
-    var data_black_white_mf = {
-        "xScale": "linear",
-        "yScale": "linear",
-        "xMin": 0,
-        "xMax": 255,
-        "yMin": 0,
-        "yMax": 1.1,
-        "type": "line-dotted",
-        "main": [
-            {
-                "className": ".black_mf",
-                "data": [
-                    {
-                        "x": 0,
-                        "y": 1
-                    },
-                    {
-                        "x": 43,
-                        "y": 1
-                    },
-                    {
-                        "x": 117,
-                        "y": 0
-                    },
-                    {
-                        "x": 255,
-                        "y": 0
-                    }
-                ]
-            }
-        ],
-        "comp": [
-            {
-                "className": ".white_mf",
-                "type": "line-dotted",
-                "data": [
-                    {
-                        "x": 0,
-                        "y": 0
-                    },
-                    {
-                        "x": 87,
-                        "y": 0
-                    },
-                    {
-                        "x": 205,
-                        "y": 1
-                    },
-                    {
-                        "x": 255,
-                        "y": 1
-                    }
-                ]
-            }
-        ]
-    };
-    var black_white_mf = new xChart('bar', data_black_white_mf, '#black_white_mf');
-
-    var data_edge_mf = {
-        "xScale": "linear",
-        "yScale": "linear",
-        "xMin": 0,
-        "xMax": 255,
-        "yMin": 0,
-        "yMax": 1.1,
-        "type": "line-dotted",
-        "main": [
-            {
-                "className": ".black_mf",
-                "data": [
-                    {
-                        "x": 0,
-                        "y": 1
-                    },
-                    {
-                        "x": 10,
-                        "y": 0
-                    },
-                    {
-                        "x": 255,
-                        "y": 0
-                    }
-                ]
-            }
-        ]
-    };
-    var edge_mf = new xChart('bar', data_edge_mf, '#edge_mf');
+    redraw_black_white_mf(black_start_global, black_end_global, white_start_global, white_end_global);
+    redraw_edge_mf(edge_end_global);
+    
+    function check_pixel_value(pixel) {
+        if (pixel === null || pixel < 0 || pixel > 255) {
+            return false;
+        }
+        return true;
+    }
+    
+    function redraw_black_white_mf(black_start, black_end, white_start, white_end) {
+        var data_black_white_mf = {
+            "xScale": "linear",
+            "yScale": "linear",
+            "xMin": 0,
+            "xMax": 255,
+            "yMin": 0,
+            "yMax": 1.1,
+            "type": "line-dotted",
+            "main": [
+                {
+                    "className": ".black_mf",
+                    "data": [
+                        {
+                            "x": 0,
+                            "y": 1
+                        },
+                        {
+                            "x": black_start,
+                            "y": 1
+                        },
+                        {
+                            "x": black_end,
+                            "y": 0
+                        },
+                        {
+                            "x": 255,
+                            "y": 0
+                        }
+                    ]
+                }
+            ],
+            "comp": [
+                {
+                    "className": ".white_mf",
+                    "type": "line-dotted",
+                    "data": [
+                        {
+                            "x": 0,
+                            "y": 0
+                        },
+                        {
+                            "x": white_start,
+                            "y": 0
+                        },
+                        {
+                            "x": white_end,
+                            "y": 1
+                        },
+                        {
+                            "x": 255,
+                            "y": 1
+                        }
+                    ]
+                }
+            ]
+        };
+        var black_white_mf = new xChart('bar', data_black_white_mf, '#black_white_mf');
+    }
+    
+    function redraw_edge_mf(edge_end) {
+        var data_edge_mf = {
+            "xScale": "linear",
+            "yScale": "linear",
+            "xMin": 0,
+            "xMax": 255,
+            "yMin": 0,
+            "yMax": 1.1,
+            "type": "line-dotted",
+            "main": [
+                {
+                    "className": ".black_mf",
+                    "data": [
+                        {
+                            "x": 0,
+                            "y": 1
+                        },
+                        {
+                            "x": edge_end,
+                            "y": 0
+                        },
+                        {
+                            "x": 255,
+                            "y": 0
+                        }
+                    ]
+                }
+            ]
+        };
+        var edge_mf = new xChart('bar', data_edge_mf, '#edge_mf');
+    }
 
 });
 
