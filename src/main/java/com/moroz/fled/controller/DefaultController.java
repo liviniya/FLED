@@ -34,8 +34,13 @@ public class DefaultController {
     private BufferedImage input;
         
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String index() {
+    public String getStartPage() {
         return "index";
+    }
+    
+    @RequestMapping(value = {"/result"}, method = RequestMethod.GET)
+    public String getResultPage() {
+        return "result";
     }
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)    
@@ -46,7 +51,7 @@ public class DefaultController {
         return new ResponseEntity(HttpStatus.OK);
     } 
     
-    @RequestMapping(value = "/output_image", method = RequestMethod.GET)
+    @RequestMapping(value = "/fuzzy_output", method = RequestMethod.GET)
     public @ResponseBody void getOutputImage(HttpServletResponse response) 
             throws IOException {
         BufferedImage output = processImage(input);
@@ -54,7 +59,7 @@ public class DefaultController {
         writeImageToResponse(output, response);
     }
     
-    @RequestMapping(value = "/sobel_image", method = RequestMethod.GET)
+    @RequestMapping(value = "/sobel_output", method = RequestMethod.GET)
     public @ResponseBody void getSobelImage(HttpServletResponse response) throws IOException {
         BufferedImage output = operateSobel(input);
         writeImageToResponse(output, response);
@@ -69,9 +74,10 @@ public class DefaultController {
     private void writeImageToResponse(BufferedImage image,
             HttpServletResponse response) throws IOException {
         response.setContentType("image/jpg");
-        OutputStream out;
-        out = response.getOutputStream();
-        ImageIO.write(image, "jpg", out);
+        OutputStream out = response.getOutputStream();
+        if (image != null) {
+            ImageIO.write(image, "jpg", out);
+        }
         out.close();
     }
     

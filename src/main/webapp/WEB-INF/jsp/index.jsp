@@ -69,32 +69,20 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <figure style="width: 500px; height: 400px;" id="black_white_mf"></figure>
+                            <figure style="width: 450px; height: 350px;" id="black_white_mf"></figure>
                         </div>
 
                         <div class="col-sm-6">
-                            <figure style="width: 500px; height: 400px;" id="edge_mf"></figure>
+                            <figure style="width: 450px; height: 350px;" id="edge_mf"></figure>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <button id="calculate_button" type="button" class="btn btn-default btn-lg btn-block btn-huge" disabled="disabled">Calculate</button>
+                            <a id="calculate_button" type="button" class="btn btn-default btn-lg btn-block btn-huge disabled" href="result">Calculate</a>
                         </div>    
                     </div>
-
                 </div>
             </div>
-            <!--            <div class="row">
-                            <h5>Results of program</h5>
-                            <div class="col-sm-4">
-                                Fuzzy output:
-                                <img id="output_image" class="img-responsive" src="images/background.jpg" alt="Input image" style="max-height: 500px">
-                            </div>
-                            <div class="col-sm-4">
-                                Sobel operator output:
-                                <img id="sobel_image" class="img-responsive" src="images/background.jpg" alt="Input image" style="max-height: 500px">
-                            </div>
-                        </div>-->
         </div>        
     </body>
 </html>

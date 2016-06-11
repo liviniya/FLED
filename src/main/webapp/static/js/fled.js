@@ -65,7 +65,7 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 $("#input_image").attr("src", "input_image?" + Math.floor(Math.random() * 1000));
-                $('#calculate_button').prop('disabled', false);
+                $('#calculate_button').removeClass('disabled');
             },
             error: function (xhr, status, error) {
                 alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
@@ -75,12 +75,7 @@ $(document).ready(function () {
     
     $('#remove_image_link, #change_image_link').click(function () {
         $("#input_image").attr("src", "images/background.jpg");
-        $('#calculate_button').prop('disabled', true);
-    });
-    
-    $('#calculate_button').click(function () {
-        $("#output_image").attr("src", "output_image?" + Math.floor(Math.random() * 1000));
-        $("#sobel_image").attr("src", "sobel_image?" + Math.floor(Math.random() * 1000));
+        $('#calculate_button').addClass('disabled');
     });
     
     redraw_black_white_mf(black_start_global, black_end_global, white_start_global, white_end_global);
