@@ -15,6 +15,8 @@ public abstract class MembershipFunction {
     
     public abstract void modify(Integer startValue, Integer endValue);
     
+    public abstract void refresh();
+       
     protected final double getYForXInLineByTwoPoints(double x1, double y1, double x2, double y2, double x) {
         return ((x - x1) * (y2 - y1) + (x2 - x1) * y1) / (x2 - x1);
     }

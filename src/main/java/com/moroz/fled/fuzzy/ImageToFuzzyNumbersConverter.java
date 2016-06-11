@@ -45,4 +45,10 @@ public class ImageToFuzzyNumbersConverter {
     public void modifyEdgeMembershipFunction(Integer edgeEnd) {
         edgeMembershipFunctionConverter.modify(edgeEnd);
     }
+    
+    public void refreshMembershipFunction() {
+        blackMembershipFunction.refresh();
+        whiteMembershipFunction.refresh();
+        edgeMembershipFunctionConverter.refresh();
+    }
 }

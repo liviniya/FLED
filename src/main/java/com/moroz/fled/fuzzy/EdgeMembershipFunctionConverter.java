@@ -17,6 +17,11 @@ public class EdgeMembershipFunctionConverter {
     
     private static double MAX_EDGE_AREA;
     
+    public void refresh() {
+        EDGE_END = 10;
+        calculateMaxEdgeArea();
+    }
+    
     static {
         calculateMaxEdgeArea();
     }

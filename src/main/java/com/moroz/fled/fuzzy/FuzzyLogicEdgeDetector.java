@@ -40,4 +40,8 @@ public class FuzzyLogicEdgeDetector implements EdgeDetector {
     public void modifyEdgeMembershipFunction(Integer edgeEnd) {
         imageToFuzzyNumbersConverter.modifyEdgeMembershipFunction(edgeEnd);
     }
+    
+    public void refreshMembershipFunctions() {
+        imageToFuzzyNumbersConverter.refreshMembershipFunction();
+    }
 }

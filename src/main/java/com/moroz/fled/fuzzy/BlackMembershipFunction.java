@@ -16,6 +16,11 @@ public class BlackMembershipFunction extends MembershipFunction {
     public static int BLACK_START_GRAY = 43;
     public static int BLACK_END_GRAY = 117;
     
+    public void refresh() {
+        BLACK_START_GRAY = 43;
+        BLACK_END_GRAY = 117;
+    }
+    
     @Override
     public double getValue(int grayLevel) {
         checkIfCorrectPixelValue(grayLevel);
@@ -32,5 +37,5 @@ public class BlackMembershipFunction extends MembershipFunction {
     public void modify(Integer startValue, Integer endValue) {
         BLACK_START_GRAY = startValue;
         BLACK_END_GRAY = endValue;
-    }
+    }   
 }

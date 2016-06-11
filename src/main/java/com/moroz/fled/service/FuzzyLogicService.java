@@ -36,4 +36,8 @@ public class FuzzyLogicService extends GrayscaleImageService{
     public void modifyEdgeMembershipFunction(Integer edgeEnd) {
         edgeDetector.modifyEdgeMembershipFunction(edgeEnd);
     }
+    
+    public void refreshMembershipFunctions() {
+        edgeDetector.refreshMembershipFunctions();
+    }
 }

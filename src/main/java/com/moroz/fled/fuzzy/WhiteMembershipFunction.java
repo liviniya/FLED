@@ -16,6 +16,11 @@ public class WhiteMembershipFunction extends MembershipFunction {
     public static int WHITE_START_GRAY = 90;
     public static int WHITE_END_GRAY = 203; 
     
+    public void refresh() {
+        WHITE_START_GRAY = 90;
+        WHITE_END_GRAY = 203; 
+    }
+    
     @Override
     public double getValue(int grayLevel) {
         checkIfCorrectPixelValue(grayLevel);
