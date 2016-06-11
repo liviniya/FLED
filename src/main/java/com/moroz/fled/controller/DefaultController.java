@@ -5,9 +5,8 @@
  */
 package com.moroz.fled.controller;
 
-import com.moroz.fled.classic.SobelOperatorEdgeDetector;
-import com.moroz.fled.fuzzy.FuzzyLogicEdgeDetector;
-import com.moroz.fled.util.ImageTransformer;
+import com.moroz.fled.service.FuzzyLogicService;
+import com.moroz.fled.service.SobelOperatorService;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -15,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,6 +33,12 @@ public class DefaultController {
     
     private BufferedImage input;
         
+    @Autowired
+    private FuzzyLogicService fuzzyLogicService;
+    
+    @Autowired
+    private SobelOperatorService sobelOperatorService;
+    
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String getStartPage() {
         return "index";
@@ -54,14 +60,15 @@ public class DefaultController {
     @RequestMapping(value = "/fuzzy_output", method = RequestMethod.GET)
     public @ResponseBody void getOutputImage(HttpServletResponse response) 
             throws IOException {
-        BufferedImage output = processImage(input);
+        BufferedImage output = fuzzyLogicService.processImage(input);
 
         writeImageToResponse(output, response);
     }
     
     @RequestMapping(value = "/sobel_output", method = RequestMethod.GET)
     public @ResponseBody void getSobelImage(HttpServletResponse response) throws IOException {
-        BufferedImage output = operateSobel(input);
+        BufferedImage output = sobelOperatorService.processImage(input);
+        
         writeImageToResponse(output, response);
     }
     
@@ -69,6 +76,24 @@ public class DefaultController {
     public @ResponseBody void getInputImage(HttpServletResponse response) 
             throws IOException {
         writeImageToResponse(input, response);
+    }
+    
+    @RequestMapping(value = "/change_black_white_mf", method = RequestMethod.POST)
+    public ResponseEntity changeBlackWhiteMf(
+            @RequestParam("black_start") Integer blackStart,
+            @RequestParam("black_end") Integer blackEnd,
+            @RequestParam("white_start") Integer whiteStart,
+            @RequestParam("white_end") Integer whiteEnd) {
+        System.out.println("black_start=" + blackStart + ", black_end=" 
+                + blackEnd + ", white_start=" + whiteStart + ", white_end=" + whiteEnd);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/change_edge_mf", method = RequestMethod.POST)
+    public ResponseEntity changeEdgeMf(
+            @RequestParam("edge_end") Integer edgeEnd) {
+        System.out.println("edge_end=" + edgeEnd);
+        return new ResponseEntity(HttpStatus.OK);
     }
     
     private void writeImageToResponse(BufferedImage image,
@@ -80,24 +105,4 @@ public class DefaultController {
         }
         out.close();
     }
-    
-    private BufferedImage operateSobel(BufferedImage input) {
-        ImageTransformer imageTransformer = new ImageTransformer();
-        BufferedImage grayscaleImage = imageTransformer.toGrayscaleImage(input);
-        
-        SobelOperatorEdgeDetector edgeDetector = new SobelOperatorEdgeDetector();
-        BufferedImage output = edgeDetector.detectEdges(grayscaleImage);
-        
-        return output;
-    }
-    
-    private BufferedImage processImage(BufferedImage input) {
-        ImageTransformer imageTransformer = new ImageTransformer();
-        BufferedImage grayscaleImage = imageTransformer.toGrayscaleImage(input);
-
-        FuzzyLogicEdgeDetector edgeDetector = new FuzzyLogicEdgeDetector();
-        BufferedImage output = edgeDetector.detectEdges(grayscaleImage);     
-        
-        return output;
-    }    
 }

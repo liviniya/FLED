@@ -15,24 +15,38 @@ $(document).ready(function () {
     $("#spinner_white_start, #spinner_white_end, #spinner_black_start, #spinner_black_end").spinner({
         min: 0,
         max: 255,
-        change: function(event, ui) {
-            white_start = $('#spinner_white_start').spinner("value");
-            white_end = $('#spinner_white_end').spinner("value");
+        change: function(event, ui) {            
             black_start = $('#spinner_black_start').spinner("value");
             black_end = $('#spinner_black_end').spinner("value");
-            if (check_pixel_value(white_start) && check_pixel_value(white_end)
-                    && check_pixel_value(black_start) && check_pixel_value(black_end)
-                    && (white_start < white_end) && (black_start < black_end)) {
+            white_start = $('#spinner_white_start').spinner("value");
+            white_end = $('#spinner_white_end').spinner("value");
+            if (check_pixel_value(black_start) && check_pixel_value(black_end)
+                    && check_pixel_value(white_start) && check_pixel_value(white_end)
+                    && (black_start < black_end) && (white_start < white_end)) {
                 black_start_global = black_start;
                 black_end_global = black_end;
                 white_start_global = white_start;
                 white_end_global = white_end;
                 redraw_black_white_mf(black_start_global, black_end_global, white_start_global, white_end_global);
-            } else {
-                $('#spinner_white_start').spinner("value", white_start_global);
-                $('#spinner_white_end').spinner("value", white_end_global);
+                $.ajax({
+                    url: 'change_black_white_mf',
+                    type: 'POST',
+                    data: {
+                        'black_start': black_start_global,
+                        'black_end': black_end_global,
+                        'white_start': white_start_global,
+                        'white_end': white_end_global
+                    },                    
+                    success: function (data) {},
+                    error: function (xhr, status, error) {
+                        alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
+                    }
+                });  
+            } else {                
                 $('#spinner_black_start').spinner("value", black_start_global);
                 $('#spinner_black_end').spinner("value", black_end_global);
+                $('#spinner_white_start').spinner("value", white_start_global);
+                $('#spinner_white_end').spinner("value", white_end_global);
             }
         }
     });
@@ -45,6 +59,17 @@ $(document).ready(function () {
             if (check_pixel_value(edge_end)) {
                 edge_end_global = edge_end;
                 redraw_edge_mf(edge_end_global);
+                $.ajax({
+                    url: 'change_edge_mf',
+                    type: 'POST',
+                    data: {
+                        'edge_end': edge_end_global
+                    },                    
+                    success: function (data) {},
+                    error: function (xhr, status, error) {
+                        alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
+                    }
+                });  
             } else {
                 $('#spinner_edge_end').spinner("value", edge_end_global);
             }
@@ -64,8 +89,8 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (data) {
-                $("#input_image").attr("src", "input_image?" + Math.floor(Math.random() * 1000));
-                $('#calculate_button').removeClass('disabled');
+                $("#fuzzy_output").attr("src", "fuzzy_output?" + Math.floor(Math.random() * 1000));
+                $('#see_comparison').removeClass('disabled');
             },
             error: function (xhr, status, error) {
                 alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
@@ -74,8 +99,8 @@ $(document).ready(function () {
     });    
     
     $('#remove_image_link, #change_image_link').click(function () {
-        $("#input_image").attr("src", "images/background.jpg");
-        $('#calculate_button').addClass('disabled');
+        $("#fuzzy_output").attr("src", "images/background.jpg");
+        $('#see_comparison').addClass('disabled');
     });
     
     redraw_black_white_mf(black_start_global, black_end_global, white_start_global, white_end_global);

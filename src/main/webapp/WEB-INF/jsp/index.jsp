@@ -45,21 +45,22 @@
                         <a href="#" id="remove_image_link" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                         <a href="#" id="upload_image_link" class="input-group-addon btn btn-default fileinput-exists" >Upload</a>
                     </div>
-                    <img id="input_image" class="img-responsive" src="images/background.jpg" alt="Input image" style="max-height: 600px">
+                    <h5>Fuzzy output image:</h5>
+                    <img id="fuzzy_output" class="img-responsive" src="images/background.jpg" alt="Fuzzy output image" style="max-height: 600px">
                 </div>
                 <div class="col-sm-8">
                     <h5>Select appropriate characteristics and click the button:</h5>
                     <div class="row">
                         <div class="col-sm-12">                            
                             <div class="row" align="center">
-                                White:
-                                <input id="spinner_white_start" value="87">
-                                <input id="spinner_white_end" value="205">
-                            </div>                            
-                            <div class="row" align="center">
                                 Black:
                                 <input id="spinner_black_start" value="43">
                                 <input id="spinner_black_end" value="117">
+                            </div>                            
+                            <div class="row" align="center">                                
+                                White:
+                                <input id="spinner_white_start" value="90">
+                                <input id="spinner_white_end" value="203">
                             </div>                            
                             <div class="row" align="center">
                                 Edge:
@@ -78,7 +79,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <a id="calculate_button" type="button" class="btn btn-default btn-lg btn-block btn-huge disabled" href="result">Calculate</a>
+                            <a id="see_comparison" type="button" class="btn btn-default btn-lg btn-block btn-huge disabled" href="result">See comparison result</a>
                         </div>    
                     </div>
                 </div>

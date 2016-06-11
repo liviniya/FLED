@@ -5,7 +5,7 @@ package com.moroz.fled.fuzzy;
 */
 
 public class ImageFuzzyNumber {
-    private double white, black;
+    private final double white, black;
 
     public ImageFuzzyNumber(double white, double black) {
         this.white = white;

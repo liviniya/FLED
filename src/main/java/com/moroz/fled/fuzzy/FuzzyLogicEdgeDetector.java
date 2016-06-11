@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 public class FuzzyLogicEdgeDetector implements EdgeDetector {
 
     private final ImageToFuzzyNumbersConverter imageToFuzzyNumbersConverter = new ImageToFuzzyNumbersConverter();
+    
     private final MamdaniFIS mamdani = new MamdaniFIS();
 
     @Override

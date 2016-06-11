@@ -36,15 +36,15 @@
             <div class="row">
                 <div class="col-sm-4">
                     <h5>Input image:</h5>                    
-                    <img id="input_image_result" class="img-responsive" src="input_image" alt="Input image" style="max-height: 600px">
+                    <img id="input_image_result" class="img-responsive" src="input_image" alt="Input image" style="max-height: 800px">
                 </div>
                 <div class="col-sm-4">
                     <h5>Fuzzy output image:</h5>                    
-                    <img id="fuzzy_result" class="img-responsive" src="fuzzy_output" alt="Fuzzy output image" style="max-height: 600px">
+                    <img id="fuzzy_result" class="img-responsive" src="fuzzy_output" alt="Fuzzy output image" style="max-height: 800px">
                 </div>
                 <div class="col-sm-4">
                     <h5>Sobel operator output image:</h5>                    
-                    <img id="sobel_result" class="img-responsive" src="sobel_output" alt="Fuzzy output image" style="max-height: 600px">
+                    <img id="sobel_result" class="img-responsive" src="sobel_output" alt="Fuzzy output image" style="max-height: 800px">
                 </div>
             </div>
             <div class="row">
