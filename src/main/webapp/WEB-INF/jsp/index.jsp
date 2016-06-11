@@ -32,7 +32,12 @@
     <body>  
         <div class="container-fluid">            
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-4">                    
+                    <img id="input_image" class="img-responsive" src="images/background.jpg" alt="Input image" style="max-height: 300px">
+                    <h5></h5>
+                    <img id="fuzzy_output" class="img-responsive" src="images/background.jpg" alt="Fuzzy output image" style="max-height: 300px">
+                </div>
+                <div class="col-sm-8">
                     <h5>Select an image to process:</h5>
                     <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                         <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
@@ -43,10 +48,6 @@
                         <a href="#" id="remove_image_link" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                         <a href="#" id="upload_image_link" class="input-group-addon btn btn-default fileinput-exists" >Upload</a>
                     </div>
-                    <h5>Fuzzy output image:</h5>
-                    <img id="fuzzy_output" class="img-responsive" src="images/background.jpg" alt="Fuzzy output image" style="max-height: 600px">
-                </div>
-                <div class="col-sm-8">
                     <h5>Select appropriate characteristics and click the button:</h5>
                     <div class="row">
                         <div class="col-sm-12">                            
@@ -68,11 +69,11 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <figure style="width: 450px; height: 350px;" id="black_white_mf"></figure>
+                            <figure style="width: 450px; height: 300px;" id="black_white_mf"></figure>
                         </div>
 
                         <div class="col-sm-6">
-                            <figure style="width: 450px; height: 350px;" id="edge_mf"></figure>
+                            <figure style="width: 450px; height: 300px;" id="edge_mf"></figure>
                         </div>
                     </div>
                     <div class="row">

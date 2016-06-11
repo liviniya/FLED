@@ -91,6 +91,7 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 $('#see_comparison').removeClass('disabled');
+                $("#input_image").attr("src", "input_image?" + Math.floor(Math.random() * 1000));
                 redraw_fuzzy_output_image();                
             },
             error: function (xhr, status, error) {
@@ -100,6 +101,7 @@ $(document).ready(function () {
     });    
     
     $('#remove_image_link, #change_image_link').click(function () {
+        $("#input_image").attr("src", "images/background.jpg");
         $("#fuzzy_output").attr("src", "images/background.jpg");
         $('#see_comparison').addClass('disabled');
     });
