@@ -5,7 +5,11 @@
  */
 package com.moroz.fled.controller;
 
+import com.moroz.fled.fuzzy.BlackMembershipFunction;
+import com.moroz.fled.fuzzy.EdgeMembershipFunctionConverter;
+import com.moroz.fled.fuzzy.WhiteMembershipFunction;
 import com.moroz.fled.service.FuzzyLogicService;
+import com.moroz.fled.service.GrayscaleImageService;
 import com.moroz.fled.service.SobelOperatorService;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -39,9 +44,18 @@ public class DefaultController {
     @Autowired
     private SobelOperatorService sobelOperatorService;
     
+    @Autowired
+    private GrayscaleImageService grayscaleImageService;
+    
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String getStartPage() {
-        return "index";
+    public ModelAndView getStartPage() {
+        ModelAndView mav = new ModelAndView("index");
+        mav.addObject("black_start", BlackMembershipFunction.BLACK_START_GRAY);
+        mav.addObject("black_end", BlackMembershipFunction.BLACK_END_GRAY);
+        mav.addObject("white_start", WhiteMembershipFunction.WHITE_START_GRAY);
+        mav.addObject("white_end", WhiteMembershipFunction.WHITE_END_GRAY);
+        mav.addObject("edge_end", EdgeMembershipFunctionConverter.EDGE_END);
+        return mav;
     }
     
     @RequestMapping(value = {"/result"}, method = RequestMethod.GET)
@@ -60,14 +74,33 @@ public class DefaultController {
     @RequestMapping(value = "/fuzzy_output", method = RequestMethod.GET)
     public @ResponseBody void getOutputImage(HttpServletResponse response) 
             throws IOException {
-        BufferedImage output = fuzzyLogicService.processImage(input);
+        BufferedImage output = null;
+        
+        if (input != null) {
+            output = fuzzyLogicService.processImage(input);
+        }
 
         writeImageToResponse(output, response);
     }
     
     @RequestMapping(value = "/sobel_output", method = RequestMethod.GET)
     public @ResponseBody void getSobelImage(HttpServletResponse response) throws IOException {
-        BufferedImage output = sobelOperatorService.processImage(input);
+        BufferedImage output = null;
+        
+        if (input != null) {
+            output = sobelOperatorService.processImage(input);
+        }
+        
+        writeImageToResponse(output, response);
+    }
+    
+    @RequestMapping(value = "/grayscale_output", method = RequestMethod.GET)
+    public @ResponseBody void getGrayscaleImage(HttpServletResponse response) throws IOException {
+        BufferedImage output = null;
+        
+        if (input != null) {
+            output = grayscaleImageService.processImage(input);
+        }
         
         writeImageToResponse(output, response);
     }
@@ -83,16 +116,16 @@ public class DefaultController {
             @RequestParam("black_start") Integer blackStart,
             @RequestParam("black_end") Integer blackEnd,
             @RequestParam("white_start") Integer whiteStart,
-            @RequestParam("white_end") Integer whiteEnd) {
-        System.out.println("black_start=" + blackStart + ", black_end=" 
-                + blackEnd + ", white_start=" + whiteStart + ", white_end=" + whiteEnd);
+            @RequestParam("white_end") Integer whiteEnd) {        
+        fuzzyLogicService.modifyBlackWhiteMembershipFunctions(blackStart, blackEnd, 
+                whiteStart, whiteEnd);
         return new ResponseEntity(HttpStatus.OK);
     }
     
     @RequestMapping(value = "/change_edge_mf", method = RequestMethod.POST)
     public ResponseEntity changeEdgeMf(
             @RequestParam("edge_end") Integer edgeEnd) {
-        System.out.println("edge_end=" + edgeEnd);
+        fuzzyLogicService.modifyEdgeMembershipFunction(edgeEnd);
         return new ResponseEntity(HttpStatus.OK);
     }
     

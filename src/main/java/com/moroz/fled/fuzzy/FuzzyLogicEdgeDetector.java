@@ -28,4 +28,16 @@ public class FuzzyLogicEdgeDetector implements EdgeDetector {
         }
         return resultGrayscaleImage;
     }
+    
+    public void modifyBlackMembershipFunction(Integer blackStartGray, Integer blackEndGray) {
+        imageToFuzzyNumbersConverter.modifyBlackMembershipFunction(blackStartGray, blackEndGray);
+    }
+    
+    public void modifyWhiteMembershipFunction(Integer whiteStartGray, Integer whiteEndGray) {
+        imageToFuzzyNumbersConverter.modifyWhiteMembershipFunction(whiteStartGray, whiteEndGray);
+    }
+    
+    public void modifyEdgeMembershipFunction(Integer edgeEnd) {
+        imageToFuzzyNumbersConverter.modifyEdgeMembershipFunction(edgeEnd);
+    }
 }

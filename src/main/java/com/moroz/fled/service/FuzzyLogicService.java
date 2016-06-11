@@ -6,8 +6,6 @@
 package com.moroz.fled.service;
 
 import com.moroz.fled.fuzzy.FuzzyLogicEdgeDetector;
-import com.moroz.fled.interfaces.EdgeDetector;
-import com.moroz.fled.util.ImageTransformer;
 import java.awt.image.BufferedImage;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FuzzyLogicService extends GrayscaleImageService{
     
-    private final EdgeDetector edgeDetector = new FuzzyLogicEdgeDetector();
+    private final FuzzyLogicEdgeDetector edgeDetector = new FuzzyLogicEdgeDetector();
     
     @Override
     public BufferedImage processImage(BufferedImage input) {
@@ -27,5 +25,15 @@ public class FuzzyLogicService extends GrayscaleImageService{
         BufferedImage output = edgeDetector.detectEdges(grayscaleImage);     
         
         return output;
-    }    
+    }
+    
+    public void modifyBlackWhiteMembershipFunctions(Integer blackStartGray, Integer blackEndGray,
+            Integer whiteStartGray, Integer whiteEndGray) {
+        edgeDetector.modifyBlackMembershipFunction(blackStartGray, blackEndGray);
+        edgeDetector.modifyWhiteMembershipFunction(whiteStartGray, whiteEndGray);
+    }
+    
+    public void modifyEdgeMembershipFunction(Integer edgeEnd) {
+        edgeDetector.modifyEdgeMembershipFunction(edgeEnd);
+    }
 }

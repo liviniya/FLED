@@ -4,75 +4,76 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function () {
-    
-    var black_start_global = 43;
-    var black_end_global = 117;
-    var white_start_global = 87;
-    var white_end_global = 205;
-    var edge_end_global = 10;
+$(document).ready(function () {   
 
-    $("#spinner_white_start, #spinner_white_end, #spinner_black_start, #spinner_black_end").spinner({
+    $("#spinner_white_start, #spinner_white_end, #spinner_black_start, #spinner_black_end, #spinner_edge_end").spinner({
         min: 0,
-        max: 255,
-        change: function(event, ui) {            
-            black_start = $('#spinner_black_start').spinner("value");
-            black_end = $('#spinner_black_end').spinner("value");
-            white_start = $('#spinner_white_start').spinner("value");
-            white_end = $('#spinner_white_end').spinner("value");
-            if (check_pixel_value(black_start) && check_pixel_value(black_end)
-                    && check_pixel_value(white_start) && check_pixel_value(white_end)
-                    && (black_start < black_end) && (white_start < white_end)) {
-                black_start_global = black_start;
-                black_end_global = black_end;
-                white_start_global = white_start;
-                white_end_global = white_end;
-                redraw_black_white_mf(black_start_global, black_end_global, white_start_global, white_end_global);
-                $.ajax({
-                    url: 'change_black_white_mf',
-                    type: 'POST',
-                    data: {
-                        'black_start': black_start_global,
-                        'black_end': black_end_global,
-                        'white_start': white_start_global,
-                        'white_end': white_end_global
-                    },                    
-                    success: function (data) {},
-                    error: function (xhr, status, error) {
-                        alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
-                    }
-                });  
-            } else {                
-                $('#spinner_black_start').spinner("value", black_start_global);
-                $('#spinner_black_end').spinner("value", black_end_global);
-                $('#spinner_white_start').spinner("value", white_start_global);
-                $('#spinner_white_end').spinner("value", white_end_global);
-            }
+        max: 255
+    });
+    
+    var black_start_global = $('#spinner_black_start').spinner("value");
+    var black_end_global = $('#spinner_black_end').spinner("value");
+    var white_start_global = $('#spinner_white_start').spinner("value");
+    var white_end_global = $('#spinner_white_end').spinner("value");
+    var edge_end_global = $('#spinner_edge_end').spinner("value");
+    
+    $("#spinner_white_start, #spinner_white_end, #spinner_black_start, #spinner_black_end").on("spinchange", function (event, ui) {
+        black_start = $('#spinner_black_start').spinner("value");
+        black_end = $('#spinner_black_end').spinner("value");
+        white_start = $('#spinner_white_start').spinner("value");
+        white_end = $('#spinner_white_end').spinner("value");
+        if (check_pixel_value(black_start) && check_pixel_value(black_end)
+                && check_pixel_value(white_start) && check_pixel_value(white_end)
+                && (black_start < black_end) && (white_start < white_end)) {
+            black_start_global = black_start;
+            black_end_global = black_end;
+            white_start_global = white_start;
+            white_end_global = white_end;
+            redraw_black_white_mf(black_start_global, black_end_global, white_start_global, white_end_global);
+            $.ajax({
+                url: 'change_black_white_mf',
+                type: 'POST',
+                data: {
+                    'black_start': black_start_global,
+                    'black_end': black_end_global,
+                    'white_start': white_start_global,
+                    'white_end': white_end_global
+                },
+                success: function (data) {
+                    redraw_fuzzy_output_image();
+                },
+                error: function (xhr, status, error) {
+                    alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
+                }
+            });
+        } else {
+            $('#spinner_black_start').spinner("value", black_start_global);
+            $('#spinner_black_end').spinner("value", black_end_global);
+            $('#spinner_white_start').spinner("value", white_start_global);
+            $('#spinner_white_end').spinner("value", white_end_global);
         }
     });
     
-    $('#spinner_edge_end').spinner({
-        min: 0,
-        max: 255,
-        change: function(event, ui) {
-            edge_end = $('#spinner_edge_end').spinner("value");
-            if (check_pixel_value(edge_end)) {
-                edge_end_global = edge_end;
-                redraw_edge_mf(edge_end_global);
-                $.ajax({
-                    url: 'change_edge_mf',
-                    type: 'POST',
-                    data: {
-                        'edge_end': edge_end_global
-                    },                    
-                    success: function (data) {},
-                    error: function (xhr, status, error) {
-                        alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
-                    }
-                });  
-            } else {
-                $('#spinner_edge_end').spinner("value", edge_end_global);
-            }
+    $('#spinner_edge_end').on("spinchange", function (event, ui) {
+        edge_end = $('#spinner_edge_end').spinner("value");
+        if (check_pixel_value(edge_end)) {
+            edge_end_global = edge_end;
+            redraw_edge_mf(edge_end_global);
+            $.ajax({
+                url: 'change_edge_mf',
+                type: 'POST',
+                data: {
+                    'edge_end': edge_end_global
+                },
+                success: function (data) {
+                    redraw_fuzzy_output_image();
+                },
+                error: function (xhr, status, error) {
+                    alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
+                }
+            });
+        } else {
+            $('#spinner_edge_end').spinner("value", edge_end_global);
         }
     });
     
@@ -89,8 +90,8 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (data) {
-                $("#fuzzy_output").attr("src", "fuzzy_output?" + Math.floor(Math.random() * 1000));
                 $('#see_comparison').removeClass('disabled');
+                redraw_fuzzy_output_image();                
             },
             error: function (xhr, status, error) {
                 alert('xhr = ' + xhr + ', status = ' + status + ', error = ' + error);
@@ -105,6 +106,14 @@ $(document).ready(function () {
     
     redraw_black_white_mf(black_start_global, black_end_global, white_start_global, white_end_global);
     redraw_edge_mf(edge_end_global);
+    
+    function redraw_fuzzy_output_image() {
+        if ($("#see_comparison").hasClass('disabled')) {
+            $("#fuzzy_output").attr("src", "images/background.jpg");
+        } else {
+            $("#fuzzy_output").attr("src", "fuzzy_output?" + Math.floor(Math.random() * 1000));
+        }
+    }
     
     function check_pixel_value(pixel) {
         if (pixel === null || pixel < 0 || pixel > 255) {

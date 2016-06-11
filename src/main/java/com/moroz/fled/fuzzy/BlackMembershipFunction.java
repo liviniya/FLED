@@ -13,8 +13,8 @@ import static com.moroz.fled.util.CheckerUtil.checkIfCorrectPixelValue;
  */
 public class BlackMembershipFunction extends MembershipFunction {
 
-    public static final int BLACK_START_GRAY = 43;
-    public static final int BLACK_END_GRAY = 117;
+    public static int BLACK_START_GRAY = 43;
+    public static int BLACK_END_GRAY = 117;
     
     @Override
     public double getValue(int grayLevel) {
@@ -27,4 +27,10 @@ public class BlackMembershipFunction extends MembershipFunction {
         }
         return getYForXInLineByTwoPoints(BLACK_START_GRAY, 1, BLACK_END_GRAY, 0, grayLevel);
     }    
+
+    @Override
+    public void modify(Integer startValue, Integer endValue) {
+        BLACK_START_GRAY = startValue;
+        BLACK_END_GRAY = endValue;
+    }
 }

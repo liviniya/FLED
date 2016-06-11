@@ -13,9 +13,13 @@ import static com.moroz.fled.util.GeneralConstants.PIXEL_SIZE;
  */
 public class EdgeMembershipFunctionConverter {
     
-    public static final int EDGE_END = 10;
+    public static int EDGE_END = 10;
     
-    private static final double MAX_EDGE_AREA = EDGE_END / 2;
+    private static double MAX_EDGE_AREA;
+    
+    static {
+        calculateMaxEdgeArea();
+    }
     
     public double convertFuzzyNumberToEdgeGrayLevel(double alphaMax) {
         double trapeziumArea = getTrapeziumArea(alphaMax);
@@ -23,7 +27,16 @@ public class EdgeMembershipFunctionConverter {
         return PIXEL_SIZE * trapeziumArea / MAX_EDGE_AREA;
     }
     
+    public void modify(Integer edgeEnd) {
+        EDGE_END = edgeEnd;
+        calculateMaxEdgeArea();
+    }
+    
     private double getTrapeziumArea(double alphaMax) {
         return EDGE_END * (2 - alphaMax) * alphaMax / 2;
     } 
+    
+    private static void calculateMaxEdgeArea() {
+        MAX_EDGE_AREA = (double) EDGE_END / 2;
+    }
 }

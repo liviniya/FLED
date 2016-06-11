@@ -35,8 +35,8 @@
         <div class="container-fluid">            
             <div class="row">
                 <div class="col-sm-4">
-                    <h5>Input image:</h5>                    
-                    <img id="input_image_result" class="img-responsive" src="input_image" alt="Input image" style="max-height: 800px">
+                    <h5>Input grayscale image:</h5>                    
+                    <img id="input_image_result" class="img-responsive" src="grayscale_output" alt="Input grayscale image" style="max-height: 800px">
                 </div>
                 <div class="col-sm-4">
                     <h5>Fuzzy output image:</h5>                    
@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-sm-4">
                     <h5>Sobel operator output image:</h5>                    
-                    <img id="sobel_result" class="img-responsive" src="sobel_output" alt="Fuzzy output image" style="max-height: 800px">
+                    <img id="sobel_result" class="img-responsive" src="sobel_output" alt="Sobel operator output image" style="max-height: 800px">
                 </div>
             </div>
             <div class="row">

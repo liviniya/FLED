@@ -18,9 +18,7 @@
         <script src="js/bootstrap.js"></script> 
         <script src="js/jasny-bootstrap.js"></script> 
         <script src="js/d3.js" charset="utf-8"></script>
-        <script src="js/xcharts.js"></script>        
-
-        <script src="js/fled.js"></script>
+        <script src="js/xcharts.js"></script>      
 
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/jquery-ui.css">
@@ -54,17 +52,17 @@
                         <div class="col-sm-12">                            
                             <div class="row" align="center">
                                 Black:
-                                <input id="spinner_black_start" value="43">
-                                <input id="spinner_black_end" value="117">
+                                <input id="spinner_black_start" value="${black_start}">
+                                <input id="spinner_black_end" value="${black_end}">
                             </div>                            
                             <div class="row" align="center">                                
                                 White:
-                                <input id="spinner_white_start" value="90">
-                                <input id="spinner_white_end" value="203">
+                                <input id="spinner_white_start" value="${white_start}">
+                                <input id="spinner_white_end" value="${white_end}">
                             </div>                            
                             <div class="row" align="center">
                                 Edge:
-                                <input id="spinner_edge_end" value="10">
+                                <input id="spinner_edge_end" value="${edge_end}">
                             </div>                            
                         </div>
                     </div>
@@ -84,6 +82,8 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
+                                
+        <script src="js/fled.js"></script>
     </body>
 </html>

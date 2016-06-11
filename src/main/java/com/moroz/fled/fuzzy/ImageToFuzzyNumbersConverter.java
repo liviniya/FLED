@@ -32,5 +32,17 @@ public class ImageToFuzzyNumbersConverter {
 
     public double convertFuzzyNumberToEdgeGrayLevel(double alphaMax) {
         return edgeMembershipFunctionConverter.convertFuzzyNumberToEdgeGrayLevel(alphaMax);
-    }         
+    }   
+    
+    public void modifyBlackMembershipFunction(Integer blackStartGray, Integer blackEndGray) {
+        blackMembershipFunction.modify(blackStartGray, blackEndGray);
+    }
+    
+    public void modifyWhiteMembershipFunction(Integer whiteStartGray, Integer whiteEndGray) {
+        whiteMembershipFunction.modify(whiteStartGray, whiteEndGray);
+    }
+    
+    public void modifyEdgeMembershipFunction(Integer edgeEnd) {
+        edgeMembershipFunctionConverter.modify(edgeEnd);
+    }
 }
